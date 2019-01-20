@@ -36,6 +36,8 @@
     </div>
     </html>
     <script>
+
+
         var config = {
             apiKey: "AIzaSyBBZwJGnecYopRwiknIS2YDurwtApPqS3M",
             authDomain: "honcho-app.firebaseapp.com",
@@ -45,30 +47,24 @@
             messagingSenderId: "816330833096"
         };
         firebase.initializeApp(config);
-        const db = firebase.firestore();
 
-        const firestore = firebase.firestore();
-        const settings = {/* your settings... */ timestampsInSnapshots: true };
-        firestore.settings(settings);
 
-        var itemsInTill = []
-        var stuff = [];
 
-        db.collection('tillProducts').get()
-            .then((snapshot) => {
-                stuff = snapshot.data;
-                snapshot.forEach((doc) => {
-                    //console.log(doc.id, '=>', doc.data());
-                    itemsInTill.push(doc.data());
-                });
-            })
-            .catch((err) => {
-                console.log('Error getting documents', err);
-            });
+        
+        initializer();
 
         Checker = "Reloading"
+
+        var itemsInTill = [];
+        var stuff = [];
+        var currentTill = [];
         function CreateTableFromJSON() {
             console.log(Checker);
+
+            initializer(); //update itemsInTill
+            
+            if (currentTill != itemsInTill){
+
             var totalCost = 0;
             var totalItems = 0;
             var col = [];
@@ -102,7 +98,7 @@
                     }
                 }
             }
-            //itemsInTill = []; //emptied, since its items are added to the table to restart cost/number of items
+            itemsInTill = []; //emptied, since its items are added to the table to restart cost/number of items
             //alert("Total items " + totalItems);
             //alert("Total cost " + totalCost );
             var divContainer = document.getElementById("showData");
@@ -112,10 +108,33 @@
             document.getElementById("total-cost").innerHTML = totalCost;
             document.getElementById("qrcode").src = qrCodeGenerator(totalItems, totalCost);
         }
+    }
 
         function qrCodeGenerator(totalItems, totalCost) {
             var qrcode = "https://api.qrserver.com/v1/create-qr-code/?data=000201513900106421555444011680B4D4515852ADEA0201152045399530360854" + totalItems + totalCost + "5802NZ5911Android Dev6008Auckland63042D86";
             return qrcode
+        }
+
+        function initializer() {
+        const db = firebase.firestore();
+
+        const firestore = firebase.firestore();
+        const settings = {/* your settings... */ timestampsInSnapshots: true };
+        firestore.settings(settings);
+
+   
+
+        db.collection('tillProducts').get()
+            .then((snapshot) => {
+                stuff = snapshot.data;
+                snapshot.forEach((doc) => {
+                    //console.log(doc.id, '=>', doc.data());
+                    itemsInTill.push(doc.data());
+                });
+            })
+            .catch((err) => {
+                console.log('Error getting documents', err);
+            });
         }
 
         setInterval(function(){CreateTableFromJSON(); }, 1000);
