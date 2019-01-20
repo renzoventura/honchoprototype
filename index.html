@@ -106,12 +106,21 @@
             divContainer.appendChild(table);
 
             document.getElementById("total-cost").innerHTML = totalCost;
-            document.getElementById("qrcode").src = qrCodeGenerator(totalItems, totalCost);
+            document.getElementById("qrcode").src = qrCodeGenerator(totalCost);
         }
     }
 
-        function qrCodeGenerator(totalItems, totalCost) {
-            var qrcode = "https://api.qrserver.com/v1/create-qr-code/?data=000201513900106421555444011680B4D4515852ADEA0201152045399530360854" + totalItems + totalCost + "5802NZ5911Android Dev6008Auckland63042D86";
+        function qrCodeGenerator(totalCost) {
+            var lenghtOftotalCost = String(totalCost);
+            var lenghtOfTotalCostDigit = 0;
+
+            for (var i = 0; i <= lenghtOftotalCost.length; i++) {
+                lenghtOfTotalCostDigit = i;
+            }
+
+            var qrcode = "https://api.qrserver.com/v1/create-qr-code/?data=000201513900106421555444011680B4D4515852ADEA0201152045399530360854" + String(totalCost) + String(totalCost) + "5802NZ5911Android Dev6008Auckland63042D86";
+            //console.log("total Cost: " + totalCost + " Total Cost Lenght: " + lenghtOfTotalCostDigit);
+            //console.log(lenghtOfTotalCostDigit);
             return qrcode
         }
 
