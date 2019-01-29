@@ -5,9 +5,9 @@
 
 .left {
   left: 0;
-  background-color: skyblue;
+  background-color: #0BA4CC;
   height: 100%;
-  width: 60%;
+  width: 53%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -18,8 +18,8 @@
   right: 0;
   background-color: white;
   height: 100%;
-  width: 40%;
-  position: fixed;
+  width: 47%;
+  position: absolute;
   z-index: 1;
   top: 0;
   overflow-x: hidden;
@@ -27,22 +27,25 @@
 
 .centered {
   background-color: white;
-  height:70%;
-  width: 60%;
+  height:68%;
+  width: 68%;
   position: absolute;
-  top: 60%;
+  top: 56%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 8%; 
+  border-radius: 5%; 
 }
 
 .items-list{
     position: absoulute;
+    font-family:  'Conv_Ubuntu-Light', Helvetica, sans-serif;
+    font-weight: lighter;
     top: 5;
     width: 100%;
     background-color: white;
-    height: 85%;
+    height: 90%;
     overflow:auto;
+    color:  #1F3F4F;
 }
 
   .items-list img{
@@ -55,8 +58,10 @@
 
 .total{
     width: 100%;
-    background-color: lightgreen;
-    height: 15%;
+    background-color: #7ED321;
+    height: 10%;
+    position: absolute;
+    bottom: 0px;
 }
 
 .qrcode {
@@ -86,25 +91,28 @@
 }
 
   .profile img{
-    margin-left: 5%;
+    top: 10%;
     margin-right: 5%;
     position: absolute;
     border-radius: 100%;
-    height: 90%;
+    height: 70%;
     width: auto;
   }
   
   .profile p{
     position: relative;
     top: 20%;
-    left: 40%;
+    left: 30%;
     font-size: 120%;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:  'Conv_Ubuntu-Light', Helvetica, sans-serif;
+    font-weight: lighter;
   }
 
   #name{
     font-size: 160%;
+    font-family: 'Conv_Ubuntu-Regular', Arial, sans-serif;
+    font-weight: bold;
 
   }
   
@@ -118,13 +126,15 @@
 
 
 .total-text{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Conv_Ubuntu-Light', Helvetica, Arial, sans-serif;
+  font-weight: lighter;
   float: left;
   position: relative;
   top: 50%;
   left: 40%;
   transform: translate(-50%, -50%);
-  font-size: 350%;
+font-size: 350%;
+font-size: 3vw;
   color: white;
 }
 
@@ -138,12 +148,13 @@
 #showData img{
   position: relative;
   padding-right: 2px;
+ 
 }
 
 #showData td{
-  padding-left: 10px;
+  padding-left: 5px;
   font-size: 150%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Conv_Ubuntu-Regular', Helvetica, Arial, sans-serif;
 }
 
 input{
@@ -157,4 +168,33 @@ input{
   filter: alpha(opacity=50); /* For IE8 and earlier */
   display:block;
   margin:auto;
+}
+
+@font-face {
+	font-family: 'Conv_Ubuntu-Regular';
+	src: url('../fonts/Ubuntu-Regular.eot');
+	src: local('☺'), url('fonts/Ubuntu-Regular.woff') format('woff'), url('fonts/Ubuntu-Regular.ttf') format('truetype'), url('fonts/Ubuntu-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Conv_Ubuntu-Light';
+	src: url('fonts/Ubuntu-Light.eot');
+	src: local('☺'), url('fonts/Ubuntu-Light.woff') format('woff'), url('fonts/Ubuntu-Light.ttf') format('truetype'), url('fonts/Ubuntu-Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.styleDescription{
+  font-size: 80%;
+}
+
+.styleCurrencySymbol{
+  font-size: 40%;
+  float: left;
+}
+
+.priceCell{
+  color: #7ED321;
 }

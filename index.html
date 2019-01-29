@@ -25,18 +25,22 @@
             </div>
             <input type="button" onclick="CreateTableFromJSON()" class="hide" value="Create Table From JSON" />
             <p id="showData"></p>
-            <img src="images/Honcho-warung-keeper.png" class="warungKeeper">
+            <!-- <img src="images/Honcho-warung-keeper.png" class="warungKeeper"> -->
 
 
         </div>
         <div class="total">
-            <p class="total-text">Total Rp </p>
+            <p class="total-text">Total IDR </p>
             <p class="total-text" id="total-cost"></p>
         </div>
     </div>
     </html>
-    <script>
 
+    <script>
+        var Checker = "Reloading"
+        var itemsInTill = [];
+        var stuff = [];
+        var currentTill = [];
 
         var config = {
             apiKey: "AIzaSyBBZwJGnecYopRwiknIS2YDurwtApPqS3M",
@@ -48,23 +52,14 @@
         };
         firebase.initializeApp(config);
 
-
-
-        
         initializer();
 
-        Checker = "Reloading"
-
-        var itemsInTill = [];
-        var stuff = [];
-        var currentTill = [];
         function CreateTableFromJSON() {
             console.log(Checker);
 
             initializer(); //update itemsInTill
             
-            if (currentTill != itemsInTill){
-
+            if (currentTill != itemsInTill) {
             var totalCost = 0;
             var totalItems = 0;
             var col = [];
@@ -83,41 +78,41 @@
 
             // html table below created from headers above
             var tr = table.insertRow(-1);    //table row
-
             for (var i = 0; i < itemsInTill.length; i++) {
                 tr = table.insertRow(-1);
-                tr.innerHTML = "<img src='images/item.png' width=\"auto\" height=\"50%\" >";
-                for (var j = 0; j < col.length; j++) {
-                    var tabCell = tr.insertCell(-1);
-                    tabCell.innerHTML = itemsInTill[i][col[j]];
-                    //console.log(itemsInTill[i][col[j]]);
-                    if (itemsInTill[i][col[j]].indexOf("Rp ") != -1) {
-                        totalItems = totalItems + 1;
-                        var currentCost = itemsInTill[i][col[j]].split(" ");
-                        totalCost = totalCost + parseInt(currentCost[1]);
-                    }
-                }
-            }
-            itemsInTill = []; //emptied, since its items are added to the table to restart cost/number of items
-            //alert("Total items " + totalItems);
-            //alert("Total cost " + totalCost );
-            var divContainer = document.getElementById("showData");
-            divContainer.innerHTML = "";
-            divContainer.appendChild(table);
+                tr.innerHTML = "<img src='images/item2.png' width=\"auto\" height=\"50%\" >";
+                var nameDescription = tr.insertCell(-1);
+                var productName = itemsInTill[i][col[2]];
+                var productDescription = "</br>" + "<p class='styleDescription'>" + itemsInTill[i][col[0]] + "</p>";
+                var price = itemsInTill[i][col[1]].split(" ");
+                var priceCell = tr.insertCell(-1);
+                priceCell.className = "priceCell";
+                var currencySign = "<p class='styleCurrencySymbol'>" + price[0] + "</p>";
+                var currencyPrice = price[1];
 
-            document.getElementById("total-cost").innerHTML = totalCost;
-            document.getElementById("qrcode").src = qrCodeGenerator(totalCost);
+                priceCell.innerHTML = currencySign + currencyPrice;
+                nameDescription.innerHTML = productName + productDescription;
+
+                totalItems = totalItems + 1;
+                totalCost = totalCost + parseInt(price[1]);
+                //console.log("Total items " + totalItems);
+                //console.log("Total cost " + totalCost );
+                }
+                itemsInTill = []; //emptied, since its items are added to the table to restart cost/number of items
+                var divContainer = document.getElementById("showData");
+                divContainer.innerHTML = "";
+                divContainer.appendChild(table);
+                document.getElementById("total-cost").innerHTML = totalCost;
+                document.getElementById("qrcode").src = qrCodeGenerator(totalCost);
+                }
         }
-    }
 
         function qrCodeGenerator(totalCost) {
             var lenghtOftotalCost = String(totalCost);
             var lenghtOfTotalCostDigit = 0;
-
             for (var i = 0; i <= lenghtOftotalCost.length; i++) {
                 lenghtOfTotalCostDigit = i;
             }
-
             var qrcode = "https://api.qrserver.com/v1/create-qr-code/?data=000201513900106421555444011680B4D4515852ADEA0201152045399530360854" + String(totalCost) + String(totalCost) + "5802NZ5911Android Dev6008Auckland63042D86";
             //console.log("total Cost: " + totalCost + " Total Cost Lenght: " + lenghtOfTotalCostDigit);
             //console.log(lenghtOfTotalCostDigit);
@@ -125,28 +120,25 @@
         }
 
         function initializer() {
-        const db = firebase.firestore();
+            const db = firebase.firestore();
+            const firestore = firebase.firestore();
+            const settings = {/* your settings... */ timestampsInSnapshots: true };
+            firestore.settings(settings);
 
-        const firestore = firebase.firestore();
-        const settings = {/* your settings... */ timestampsInSnapshots: true };
-        firestore.settings(settings);
-
-   
-
-        db.collection('tillProducts').get()
-            .then((snapshot) => {
-                stuff = snapshot.data;
-                snapshot.forEach((doc) => {
-                    //console.log(doc.id, '=>', doc.data());
-                    itemsInTill.push(doc.data());
+            db.collection('tillProducts').get()
+                .then((snapshot) => {
+                    stuff = snapshot.data;
+                    snapshot.forEach((doc) => {
+                        //console.log(doc.id, '=>', doc.data());
+                        itemsInTill.push(doc.data());
+                    });
+                })
+                .catch((err) => {
+                    console.log('Error getting documents', err);
                 });
-            })
-            .catch((err) => {
-                console.log('Error getting documents', err);
-            });
         }
 
-        setInterval(function(){CreateTableFromJSON(); }, 1000);
+        setInterval(function(){CreateTableFromJSON();}, 1000);
 
     </script>
 </body>
